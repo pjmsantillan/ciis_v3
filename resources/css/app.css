@@ -157,3 +157,12 @@
         @apply bg-background text-foreground;
     }
 }
+
+/* Target both regular and inline editable areas */
+.ck-editor__editable:not(.ck-comment__input) {
+    min-height: 200px;  /* Minimum height */
+    height: 65vh;       /* Your desired height */
+    max-height: 800px;  /* Maximum height */
+    overflow-y: auto;   /* Enable scrolling */
+}
+
