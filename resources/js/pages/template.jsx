@@ -1,11 +1,22 @@
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { SquarePen, Trash2 } from 'lucide-react';
-
+import { useState } from 'react';
 
 const breadcrumbs = [
     {
@@ -18,9 +29,18 @@ const breadcrumbs = [
 
 export default function Template({templates}) {
 // console.log(templates);
-// const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-// const [deleteContactId, setDeleteContactId] = useState <number | null>(null);
+const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+const [deleteTemplateId, setDeleteTemplateId] = useState(null);
 
+const handleDelete = (id) => {
+    setDeleteDialogOpen(true);
+    setDeleteTemplateId(id);
+}
+
+const handleConfirmDelete =()=>{
+    router.delete(`/templates/${deleteTemplateId}`);
+    setDeleteDialogOpen(false);
+}
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Template Management" />
@@ -58,20 +78,32 @@ export default function Template({templates}) {
                                 <Link href={`/templates/${template.id}/edit`}>
                                 <SquarePen/> 
                                 </Link>
-                                <Button variant="ghost">
+                                <Button variant="ghost" onClick={() => handleDelete(template.id)}>
                                     <Trash2/>
                                 </Button>
-                              
-                               
-                                
                             </div>
+                            
                             </TableCell>
                         </TableRow>
                         ))}
                     </TableBody>
                 </Table>
                 </div>
-                
+                 <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+                    {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete your contact and remove your data from our servers.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleConfirmDelete}>Continue</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </div>
 
         </AppLayout>
