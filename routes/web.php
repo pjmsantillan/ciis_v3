@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TemplateController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -14,9 +15,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('template', function () {
-        return Inertia::render('template');
-    })->name('template');
+    Route::resource('templates',TemplateController::class);
 });
 
 require __DIR__.'/settings.php';

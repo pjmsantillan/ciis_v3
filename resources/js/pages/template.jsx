@@ -1,49 +1,79 @@
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table";
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
-import {CKEditor} from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { Head, Link } from '@inertiajs/react';
+import { SquarePen, Trash2 } from 'lucide-react';
+
 
 const breadcrumbs = [
     {
-        title: 'TEMPLATE',
-        href: '/template',
-   
+        title: 'Template Management',
+        href: '/templates',
     }
 ];
 
-export default function Dashboard() {
-    
+
+
+export default function Template({templates}) {
+// console.log(templates);
+// const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+// const [deleteContactId, setDeleteContactId] = useState <number | null>(null);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Template" />
-            <div class="flex flex-col min-h-screen bg-gray-50">
-             {/* Main Header  */}
-               
+            <Head title="Template Management" />
+            <div className="flex flex-col min-h-screen ">
+                {/* Main Header  */}
                 {/* Main Content Area */}
-                 <div class="flex flex-1 overflow-hidden">
-                    {/* Sidebar Navigation  */}
-                    <aside class="w-64 bg-white border-r overflow-y-auto">
-                    </aside>
-                     <div class="flex-1 overflow-auto p-4 bg-white">
-                        <CKEditor
-                                editor={ClassicEditor}
-                                data="<p>Hello from CKEditor!</p>"
-                                onChange={(event, editor) => {
-                                // const data = editor.getData();
-                                // console.log(data);
-                                }}
-                                
-                            />
+                <div className="flex  justify-between">
+                    <div className="p-4 w-90">
+                        <Input type="text" placeholder="Search Template" />
                     </div>
-                        
-
-
-      
+                    <div className="p-4   ">
+                        <Button className='bg-[#1B4298] hover:bg-[#F26531]'>
+                            <Link href={route('templates.create')} >
+                            Add New Template
+                            </Link>
+                        </Button>
+                    </div>
+                </div>
+                <div className="p-4 ">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                        <TableHead className="w-150">Name</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {templates.map((template) => (
+                        <TableRow key={template.id}>
+                            <TableCell className="w-150">{template.title}</TableCell>
+                            <TableCell>{template.status}</TableCell>
+                            <TableCell>
+                            <div className="flex flex-row justify-end">
+                                <Link href={`/templates/${template.id}/edit`}>
+                                <SquarePen/> 
+                                </Link>
+                                <Button variant="ghost">
+                                    <Trash2/>
+                                </Button>
+                              
+                               
+                                
+                            </div>
+                            </TableCell>
+                        </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
                 </div>
                 
             </div>
-         
+
         </AppLayout>
     );
 }
