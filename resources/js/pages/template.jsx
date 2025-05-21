@@ -6,8 +6,7 @@ import {
     AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
+    AlertDialogTitle
 } from '@/components/ui/alert-dialog';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { Input } from "@/components/ui/input";
@@ -28,7 +27,7 @@ const breadcrumbs = [
 
 
 export default function Template({templates}) {
-// console.log(templates);
+// Delete Function
 const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 const [deleteTemplateId, setDeleteTemplateId] = useState(null);
 
@@ -41,6 +40,7 @@ const handleConfirmDelete =()=>{
     router.delete(`/templates/${deleteTemplateId}`);
     setDeleteDialogOpen(false);
 }
+// -------------------------------
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Template Management" />
@@ -75,9 +75,11 @@ const handleConfirmDelete =()=>{
                             <TableCell>{template.status}</TableCell>
                             <TableCell>
                             <div className="flex flex-row justify-end">
-                                <Link href={`/templates/${template.id}/edit`}>
-                                <SquarePen/> 
-                                </Link>
+                                <Button variant="ghost">
+                                    <Link href={`/templates/${template.id}/edit`}>
+                                    <SquarePen/> 
+                                    </Link>
+                                </Button>
                                 <Button variant="ghost" onClick={() => handleDelete(template.id)}>
                                     <Trash2/>
                                 </Button>
@@ -89,8 +91,7 @@ const handleConfirmDelete =()=>{
                     </TableBody>
                 </Table>
                 </div>
-                 <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-                    {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
+                <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
                     <AlertDialogContent>
                         <AlertDialogHeader>
                             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>

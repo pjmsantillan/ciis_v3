@@ -40,11 +40,12 @@ class TemplateController extends Controller
         //
         $validated = $request->validate([
             'title' => 'required',
-            'content' => 'required'
+            'content' => 'required',
+            
         ]);
 
         $template = Template::create($validated);
-        return redirect()->back()->with('success', 'Template created successfully');
+        return redirect()->route('templates.index')->with(['success' , 'template create successfully']);
     }
 
     /**
@@ -73,10 +74,11 @@ class TemplateController extends Controller
         
         $validated = $request->validate([
             'title' => 'required',
-            'content' => 'required'
+            'content' => 'required',
+            'status' => 'required'
         ]);
         $template->update($validated);
-        return redirect()->route('templates.index')->with(['success' , 'Contact updated successfully']);
+        return redirect()->route('templates.index')->with(['success' , ' Updated successfully']);
     }
 
     /**
@@ -87,6 +89,6 @@ class TemplateController extends Controller
         //
         $template->delete();
         
-        return redirect()->route('templates.index')->with(['success' , 'Contact Deleted successfully']);
+        return redirect()->route('templates.index')->with(['success' , 'Deleted successfully']);
     }
 }

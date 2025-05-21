@@ -9,6 +9,7 @@ class template extends Model
     //
     protected $fillable =[
         'title',
-        'content'
+        'content',
+        'status'
     ];
 }
